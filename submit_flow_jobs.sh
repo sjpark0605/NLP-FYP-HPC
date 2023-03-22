@@ -22,5 +22,5 @@ em_job_name="${target}_E-M_Flow_Training_with_${epochs}_Epochs"
 
 # Print the values of the arguments to the console
 qsub -N ${di_job_name} /home/sejipark/NLP-FYP-HPC/directional-input/train_di_flow.qsub.sh -v arg1="$target" arg2="$undersample" arg3="$epochs"
-qsub -N ${dl_job_name} /home/sejipark/NLP-FYP-HPC/directional-label/train_di_flow.qsub.sh -v arg1="$target" arg2="$undersample" arg3="$epochs"
-qsub -N ${em_job_name} /home/sejipark/NLP-FYP-HPC/entity-marker/train_di_flow.qsub.sh -v arg1="$target" arg2="$undersample" arg3="$epochs"
+qsub -N ${dl_job_name} /home/sejipark/NLP-FYP-HPC/directional-label/train_dl_flow.qsub.sh -v arg1="$target" arg2="$undersample" arg3="$epochs"
+qsub -N ${em_job_name} /home/sejipark/NLP-FYP-HPC/entity-marker/train_em_flow.qsub.sh -v arg1="$target" arg2="$undersample" arg3="$epochs"
