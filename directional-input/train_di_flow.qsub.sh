@@ -1,6 +1,6 @@
 # GPU job script example.
 #$ -S /bin/bash
-#$ -l h_rt=2:00:0
+#$ -l h_rt=36:00:0
 #$ -l tmem=4G
 #$ -wd /home/sejipark/NLP-FYP-HPC
 #$ -j y

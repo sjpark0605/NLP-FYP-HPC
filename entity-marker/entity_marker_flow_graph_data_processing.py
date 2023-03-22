@@ -68,7 +68,7 @@ def construct_recipe_dict(ner_lines, remove_iob = False):
     key, word, ner_tag = encode_key(items[:3]), items[3], items[5]
 
     if remove_iob:
-      ner_tag = ner_tag.replace("-B", "").replace("-B", "")
+      ner_tag = ner_tag.replace("-B", "").replace("-I", "")
 
     word_dict[key] = word
     ner_dict[key] = ner_tag
