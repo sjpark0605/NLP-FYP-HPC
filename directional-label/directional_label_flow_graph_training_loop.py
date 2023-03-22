@@ -162,7 +162,7 @@ loss_fct = torch.nn.CrossEntropyLoss()
 if WEIGHTED_CROSS_ENTROPY:
   loss_fct = torch.nn.CrossEntropyLoss(weight=weights)
 
-epochs = arg.epochs
+epochs = args.epochs
 num_training_steps = epochs * len(train_dl)
 lr_scheduler = get_scheduler(
     "linear",

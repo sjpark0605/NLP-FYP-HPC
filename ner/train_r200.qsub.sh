@@ -4,7 +4,7 @@
 #$ -l tmem=4G
 #$ -wd /home/sejipark/NLP-FYP-HPC
 #$ -j y
-#$ -N NER_Training_Submission_R100
+#$ -N NER_Training_Submission_R200
 #$ -l gpu=true,gpu_type=gtx1080ti
 #$ -pe gpu 1
 #$ -R y
