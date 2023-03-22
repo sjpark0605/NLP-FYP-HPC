@@ -15,7 +15,7 @@ if [[ -z "$target" || -z "$epochs" ]]; then
   exit 1
 fi
 
-job_name="NER_Training_with_$target"
+job_name="$target_NER_Training_with_$epochs_Epochs"
 
 # Print the values of the arguments to the console
 qsub -N ${job_name} /home/sejipark/NLP-FYP-HPC/ner/train_ner.qsub.sh -v arg1=target arg2=epochs
