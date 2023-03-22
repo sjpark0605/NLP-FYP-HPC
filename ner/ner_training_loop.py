@@ -41,6 +41,8 @@ parser.add_argument('--epochs', type=int, help='Number of Epochs')
 args = parser.parse_args()
 
 TARGET_CORPUS = args.t
+print(TARGET_CORPUS)
+
 OUTPUT_DIR = PROJECT_DIR + 'outputs/ner/' + TARGET_CORPUS + '/' + MODEL_CHECKPOINT + '/'
 
 device = torch.device('cpu')
@@ -135,6 +137,7 @@ ner_model, optimizer, train_dataloader, eval_dataloader = accelerator.prepare(
 )
 
 epochs = args.epochs
+print(epochs)
 steps_per_epoch = len(train_dataloader)
 num_training_steps = epochs * steps_per_epoch
 
