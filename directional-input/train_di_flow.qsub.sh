@@ -1,7 +1,7 @@
 # GPU job script example.
 #$ -S /bin/bash
 #$ -l h_rt=36:00:0
-#$ -l tmem=8G
+#$ -l tmem=16G
 #$ -wd /home/sejipark/NLP-FYP-HPC
 #$ -j y
 #$ -l gpu=true,gpu_type=rtx2080ti
