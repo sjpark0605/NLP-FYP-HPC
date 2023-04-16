@@ -66,11 +66,11 @@ tokenized_datasets = tokenized_datasets.remove_columns(["First Sentence", "Secon
 tokenized_datasets = tokenized_datasets.rename_column("Label", "labels")
 
 train_dataloader = DataLoader(
-    tokenized_datasets["train"], batch_size=64, collate_fn=data_collator
+    tokenized_datasets["train"], batch_size=32, collate_fn=data_collator
 )
 
 eval_dataloader = DataLoader(
-    tokenized_datasets["valid"], batch_size=64, collate_fn=data_collator
+    tokenized_datasets["valid"], batch_size=32, collate_fn=data_collator
 )
 
 label_names = tokenized_datasets["train"].features["labels"].names
