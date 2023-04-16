@@ -40,7 +40,7 @@ args = parser.parse_args()
 
 TARGET_CORPUS = args.t
 UNDERSAMPLE_FACTOR = args.us
-OUTPUT_DIR = PROJECT_DIR + 'outputs/directional-input-flow/' + TARGET_CORPUS + '-' + UNDERSAMPLE_FACTOR + '/' + MODEL_CHECKPOINT + '/'
+OUTPUT_DIR = PROJECT_DIR + 'outputs/directional-input-flow/' + TARGET_CORPUS + '-' + str(UNDERSAMPLE_FACTOR) + '/' + MODEL_CHECKPOINT + '/'
 WEIGHTED_CROSS_ENTROPY = args.weighted
 
 device = torch.device('cpu')
