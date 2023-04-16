@@ -34,13 +34,15 @@ MODEL_CHECKPOINT = "bert-base-cased"
 
 parser = argparse.ArgumentParser()
 parser.add_argument('--t', type=str, help='Recipe Corpus Target: can either be r-100, r-200, or r-300')
+parser.add_argument('--us', type=float, help='Undersample Factor: value between 0.0 and 1.0')
 parser.add_argument('--epochs', type=int, help='Number of Epochs')
 parser.add_argument('--weighted', action='store_true', help='Toggling Weighted Cross Entropy Loss')
 
 args = parser.parse_args()
 
 TARGET_CORPUS = args.t
-OUTPUT_DIR = PROJECT_DIR + 'outputs/directional-label-flow/' + TARGET_CORPUS + '/' + MODEL_CHECKPOINT + '/'
+UNDERSAMPLE_FACTOR = args.us
+OUTPUT_DIR = PROJECT_DIR + 'outputs/directional-label-flow/' + TARGET_CORPUS + '-' + UNDERSAMPLE_FACTOR + '/' + MODEL_CHECKPOINT + '/'
 WEIGHTED_CROSS_ENTROPY = args.weighted
 
 device = torch.device('cpu')
