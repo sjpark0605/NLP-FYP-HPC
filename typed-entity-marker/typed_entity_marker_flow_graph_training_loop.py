@@ -48,7 +48,7 @@ device = torch.device('cpu')
 if torch.cuda.is_available():
   device = torch.device('cuda')
 
-corpus_datasets = load_from_disk(PROJECT_DIR + 'datasets/' + TARGET_CORPUS + '-typed-entity-marked-flow')
+corpus_datasets = load_from_disk(PROJECT_DIR + 'datasets/' + TARGET_CORPUS + '-' + UNDERSAMPLE_FACTOR + '-typed-entity-marked-flow')
 
 entities = ['Ac', 'Ac2', 'Af', 'At', 'D', 'F', 'Q', 'Sf', 'St', 'T']
 markers = []

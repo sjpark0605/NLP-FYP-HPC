@@ -48,7 +48,7 @@ device = torch.device('cpu')
 if torch.cuda.is_available():
   device = torch.device('cuda')
 
-corpus_datasets = load_from_disk(PROJECT_DIR + 'datasets/' + TARGET_CORPUS + '-directional-label-flow')
+corpus_datasets = load_from_disk(PROJECT_DIR + 'datasets/' + TARGET_CORPUS + '-' + UNDERSAMPLE_FACTOR + '-directional-label-flow')
 
 tokenizer = AutoTokenizer.from_pretrained(MODEL_CHECKPOINT)
 
