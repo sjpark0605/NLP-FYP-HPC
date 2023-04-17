@@ -294,6 +294,6 @@ corpus_datasets = DatasetDict({
     "valid": split_dataset["test"],
 })
 
-corpus_datasets.save_to_disk(PROJECT_DIR + 'datasets/' + TARGET_CORPUS + '-' + UNDERSAMPLE_FACTOR + '-typed-entity-marked-flow')
+corpus_datasets.save_to_disk(PROJECT_DIR + 'datasets/' + TARGET_CORPUS + '-' + str(UNDERSAMPLE_FACTOR) + '-typed-entity-marked-flow')
 
 df['Label'].value_counts().sum() - df['Label'].value_counts()['non-edge'] - GLOBAL_EDGE_COUNT <= 1
