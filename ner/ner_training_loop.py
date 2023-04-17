@@ -27,7 +27,7 @@ from datasets import load_from_disk
 from transformers import AutoTokenizer, DataCollatorForTokenClassification, AutoModelForTokenClassification, get_scheduler
 from accelerate import Accelerator
 
-from seqeval.metrics import classification_report
+from seqeval.metrics import precision_score, recall_score, f1_score, classification_report
 from collections import defaultdict
 
 # REPLACE CONSTANTS AS APPROPRIATE
@@ -161,15 +161,15 @@ def postprocess(predictions, labels):
     return true_predictions, true_labels
 
 def evaluate(eval_dataloader):
-    eval_loss_val = 0
-    eval_preds, eval_trues = [], []
+    loss_val_total = 0
+    pred_vals, true_vals = [], []
 
     ner_model.eval()
     for batch in eval_dataloader:
         with torch.no_grad():
             outputs = ner_model(**batch)
             
-        eval_loss_val += outputs.get("loss").item()
+        loss_val_total += outputs.get("loss").item()
 
         predictions = outputs.logits.argmax(dim=-1)
         labels = batch["labels"]
@@ -181,16 +181,22 @@ def evaluate(eval_dataloader):
         labels_gathered = accelerator.gather(labels)
 
         pred_labels, true_labels = postprocess(predictions_gathered, labels_gathered)
-        metric.add_batch(predictions=pred_labels, references=true_labels)
 
-        eval_preds.append(pred_labels)
-        eval_trues.append(true_labels)
+        pred_vals.append(pred_labels)
+        true_vals.append(true_labels)
 
-    perf_metrics = metric.compute(suffix=True)
+    pred_vals = np.concatenate(pred_vals)
+    true_vals = np.concatenate(true_vals)
 
-    eval_loss_val /= len(eval_dataloader)     
+    perf_metrics = {
+        "overall_precision": precision_score(true_vals, pred_vals, average="weighted", suffix=True),
+        "overall_recall": recall_score(true_vals, pred_vals, average="weighted", suffix=True),
+        "overall_f1": f1_score(true_vals, pred_vals, average="weighted", suffix=True),
+    }
 
-    return perf_metrics, eval_loss_val, eval_preds, eval_trues
+    loss_val_avg = loss_val_total / len(eval_dataloader)     
+
+    return perf_metrics, loss_val_avg, pred_vals, true_vals
 
 progress_bar = tqdm(range(num_training_steps))
 
@@ -224,7 +230,7 @@ for epoch in range(epochs):
     # Evaluation
     perf_metrics, eval_loss_val, _, _ = evaluate(eval_dataloader)
 
-    for key in ["precision", "recall", "f1", "accuracy"]:
+    for key in ["precision", "recall", "f1"]:
         overall_metrics[key].append(perf_metrics[f"overall_{key}"] * 100)
 
     eval_loss_vals.append(eval_loss_val)
@@ -236,6 +242,8 @@ plt.plot(range(epochs), eval_loss_vals, label='Validation Loss')
 
 plt.title('Loss for ' + MODEL_CHECKPOINT + ' Model with ' + TARGET_CORPUS + ' Dataset')
 plt.xlabel('Epochs')
+plt.xticks(range(1, epochs+1), [int(i) for i in range(1, epochs+1)])
+
 plt.ylabel('Loss')
 plt.ylim(0, None)
 
@@ -244,10 +252,10 @@ plt.legend()
 plt.savefig(OUTPUT_DIR + "train_valid_losses.png")
 
 plt.clf()
-for key in ["precision", "recall", "f1", "accuracy"]:
+for key in ["precision", "recall", "f1"]:
   plt.plot(range(epochs), overall_metrics[key], label = key + ' score')
 
-plt.title('Metrics for ' + MODEL_CHECKPOINT + ' Model with ' + TARGET_CORPUS + ' Dataset')
+plt.title('Weighted Metrics for ' + MODEL_CHECKPOINT + ' Model with ' + TARGET_CORPUS + ' Dataset')
 plt.xlabel('Epochs')
 plt.ylabel('Score')
 plt.ylim(None, 100)
@@ -257,8 +265,8 @@ plt.savefig(OUTPUT_DIR + "metrics.png")
 
 _, _, eval_preds, eval_trues = evaluate(eval_dataloader)
 
-pred_labels = [pred_label for batch in eval_preds for pred_label in batch]
-true_labels = [true_label for batch in eval_trues for true_label in batch]
+pred_labels = [pred_label for pred_label in eval_preds]
+true_labels = [true_label for true_label in eval_trues]
 
 report = classification_report(true_labels, pred_labels, suffix=True, output_dict=True)
 
