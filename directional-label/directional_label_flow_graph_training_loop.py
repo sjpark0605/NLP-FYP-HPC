@@ -18,14 +18,12 @@ from datasets import load_from_disk
 from transformers import AutoTokenizer, DataCollatorWithPadding
 from accelerate import Accelerator
 
-from torch import nn
 from torch.utils.data import DataLoader
 
 from tqdm.auto import tqdm
 from matplotlib import pyplot as plt
 
-from sklearn.metrics import precision_score, recall_score, f1_score, accuracy_score
-from sklearn.metrics import classification_report
+from sklearn.metrics import precision_score, recall_score, f1_score, classification_report
 
 from collections import defaultdict
 
@@ -76,50 +74,39 @@ label_names = tokenized_datasets["train"].features["labels"].names
 id2label = {i: label for i, label in enumerate(label_names)}
 label2id = {v: k for k, v in id2label.items()}
 
-def postprocess(predictions, labels):
-    predictions = predictions.detach().cpu().clone().numpy()
-    labels = labels.detach().cpu().clone().numpy()
-
-    true_predictions = [[label_names[prediction]] for prediction in predictions]
-    true_labels = [[label_names[label]] for label in labels]
-
-    return true_predictions, true_labels
-
 def evaluate(dataloader_val):
     flow_model.eval()
     
     loss_val_total = 0
-    predictions, true_vals = [], []
+    pred_vals, true_vals = [], []
     
     for batch in dataloader_val:
         with torch.no_grad():        
             outputs = flow_model(**batch)
 
         loss = outputs.get("loss")
-        logits = outputs.get("logits")
         loss_val_total += loss.item()
 
-        logits = logits.detach().cpu().numpy()
-        label_ids = batch.get('labels').cpu().numpy()
-        predictions.append(logits)
+        logits = outputs.get("logits")
+        predictions = logits.argmax(dim=-1).detach().cpu().numpy()
+        
+        label_ids = batch.get('labels').detach().cpu().numpy()
+
+        pred_vals.append(predictions)
         true_vals.append(label_ids)
     
-    loss_val_avg = loss_val_total/len(dataloader_val) 
-    
-    predictions = np.concatenate(predictions, axis=0)
-    true_vals = np.concatenate(true_vals, axis=0)
-            
-    return loss_val_avg, predictions, true_vals
+    pred_vals = np.concatenate(pred_vals)
+    true_vals = np.concatenate(true_vals)
 
-def obtain_metrics(preds, labels):
-    preds_flat = np.argmax(preds, axis=1).flatten()
-    labels_flat = labels.flatten()
-    return {
-        "overall_precision": precision_score(labels_flat, preds_flat, average='weighted'),
-        "overall_recall": recall_score(labels_flat, preds_flat, average='weighted'),
-        "overall_f1": f1_score(labels_flat, preds_flat, average='weighted'),
-        "overall_accuracy": accuracy_score(labels_flat, preds_flat),
+    perf_metrics = {
+        "overall_precision": precision_score(true_vals, pred_vals, average="weighted"),
+        "overall_recall": recall_score(true_vals, pred_vals, average="weighted"),
+        "overall_f1": f1_score(true_vals, pred_vals, average="weighted"),
     }
+
+    loss_val_avg = loss_val_total/len(dataloader_val) 
+
+    return perf_metrics, loss_val_avg, pred_vals, true_vals
 
 # Calculate Weights for Cross Entropy Loss
 
@@ -179,6 +166,7 @@ overall_metrics = defaultdict(list)
 train_loss_vals, eval_loss_vals = [], []
 
 for epoch in range(epochs):
+    # Training
     train_loss_sum = 0
     flow_model.train()
     for batch in train_dl:
@@ -199,21 +187,23 @@ for epoch in range(epochs):
     train_loss = train_loss_sum / len(train_dl)
     train_loss_vals.append(train_loss)
 
-    val_loss, predictions, true_vals = evaluate(eval_dl)
-    perf_metrics = obtain_metrics(predictions, true_vals)
+    # Evaluation
+    perf_metrics, val_loss, _, _ = evaluate(eval_dl)
 
-    for key in ["precision", "recall", "f1", "accuracy"]:
+    for key in ["precision", "recall", "f1"]:
         overall_metrics[key].append(perf_metrics[f"overall_{key}"] * 100)
 
     eval_loss_vals.append(val_loss)
 
 flow_model.save_pretrained(OUTPUT_DIR + 'model/' + TARGET_CORPUS + '-' + MODEL_CHECKPOINT + '-model')
 
-plt.plot(range(epochs), train_loss_vals, label='Training Loss')
-plt.plot(range(epochs), eval_loss_vals, label='Validation Loss')
+plt.plot(range(1, epochs+1), train_loss_vals, label='Training Loss')
+plt.plot(range(1, epochs+1), eval_loss_vals, label='Validation Loss')
 
-plt.title('Loss for ' + MODEL_CHECKPOINT + ' Model with ' + TARGET_CORPUS + ' Dataset')
+plt.title('Loss for ' + MODEL_CHECKPOINT + ' Model with ' + str(int((1.0 - UNDERSAMPLE_FACTOR) * 100)) + '% Undersampled ' + TARGET_CORPUS + ' Dataset')
 plt.xlabel('Epochs')
+plt.xticks(range(1, epochs+1), [int(i) for i in range(1, epochs+1)])
+
 plt.ylabel('Loss')
 plt.ylim(0, None)
 
@@ -222,35 +212,25 @@ plt.legend()
 plt.savefig(OUTPUT_DIR + "train_valid_losses.png")
 
 plt.clf()
-for key in ["precision", "recall", "f1", "accuracy"]:
-  plt.plot(range(epochs), overall_metrics[key], label = key + ' score')
+for key in ["precision", "recall", "f1"]:
+  plt.plot(range(1, epochs+1), overall_metrics[key], label = key + ' score')
 
-plt.title('Metrics for ' + MODEL_CHECKPOINT + ' Model with ' + TARGET_CORPUS + ' Dataset')
+plt.title('Weighted Metrics for ' + MODEL_CHECKPOINT + ' Model with ' + str(int((1.0 - UNDERSAMPLE_FACTOR) * 100)) + '% Undersampled ' + TARGET_CORPUS + ' Dataset')
 plt.xlabel('Epochs')
+plt.xticks(range(1, epochs+1), [int(i) for i in range(1, epochs+1)])
+
 plt.ylabel('Score')
 plt.ylim(None, 100)
 
 plt.legend()
 plt.savefig(OUTPUT_DIR + "metrics.png")
 
-_, predictions, true_vals = evaluate(eval_dl)
-
-pred_vals = np.argmax(predictions, axis=1).flatten()
+_, _, pred_vals, true_vals = evaluate(eval_dl)
 
 labeled_preds = [label_names[pred_val] for pred_val in pred_vals]
 labeled_trues = [label_names[true_val] for true_val in true_vals]
 
-directional_report = classification_report(labeled_trues, labeled_preds, output_dict=True)
+report = classification_report(labeled_trues, labeled_preds, output_dict=True)
 
-df = pd.DataFrame(directional_report).transpose()
-df.to_csv(OUTPUT_DIR + 'directional_classification_report.csv')
-
-pred_vals = np.argmax(predictions, axis=1).flatten()
-
-labeled_preds = [label_names[pred_val].replace(":LR", "").replace(":RL", "") for pred_val in pred_vals]
-labeled_trues = [label_names[true_val].replace(":LR", "").replace(":RL", "") for true_val in true_vals]
-
-non_directional_report = classification_report(labeled_trues, labeled_preds, output_dict=True)
-
-df = pd.DataFrame(non_directional_report).transpose()
-df.to_csv(OUTPUT_DIR + 'non_directional_classification_report.csv')
+df = pd.DataFrame(report).transpose()
+df.to_csv(OUTPUT_DIR + 'classification_report.csv')
