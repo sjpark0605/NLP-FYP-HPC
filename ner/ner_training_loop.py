@@ -94,8 +94,6 @@ tokenized_datasets = corpus_datasets.map(
 
 data_collator = DataCollatorForTokenClassification(tokenizer=tokenizer)
 
-metric = evaluate.load("seqeval")
-
 id2label = {i: label for i, label in enumerate(label_names)}
 label2id = {v: k for k, v in id2label.items()}
 
@@ -185,6 +183,9 @@ def evaluate(eval_dataloader):
 
         pred_vals.append(pred_labels)
         true_vals.append(true_labels)
+
+    print(pred_vals)
+    print(true_vals)
 
     pred_vals = np.concatenate(pred_vals)
     true_vals = np.concatenate(true_vals)
