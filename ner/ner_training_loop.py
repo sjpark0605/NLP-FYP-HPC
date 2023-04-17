@@ -16,6 +16,7 @@ import pandas as pd
 import evaluate
 import torch
 import argparse
+import time
 
 from tqdm.auto import tqdm
 from matplotlib import pyplot as plt
@@ -41,7 +42,7 @@ parser.add_argument('--epochs', type=int, help='Number of Epochs')
 args = parser.parse_args()
 
 TARGET_CORPUS = args.t
-print(TARGET_CORPUS)
+print("Training with " + TARGET_CORPUS + " Corpus")
 
 OUTPUT_DIR = PROJECT_DIR + 'outputs/ner/' + TARGET_CORPUS + '/' + MODEL_CHECKPOINT + '/'
 
@@ -137,7 +138,7 @@ ner_model, optimizer, train_dataloader, eval_dataloader = accelerator.prepare(
 )
 
 epochs = args.epochs
-print(epochs)
+print("Training with " + str(epochs) + " epochs")
 steps_per_epoch = len(train_dataloader)
 num_training_steps = epochs * steps_per_epoch
 
@@ -203,6 +204,8 @@ progress_bar = tqdm(range(num_training_steps))
 overall_metrics = defaultdict(list)
 train_loss_vals, eval_loss_vals = [], []
 
+training_start_time = time.time()
+
 for epoch in range(epochs):
     # Training
     train_loss_val = 0
@@ -235,6 +238,10 @@ for epoch in range(epochs):
 
     eval_loss_vals.append(eval_loss_val)
 
+training_end_time = time.time()
+
+print("Training took " + str(training_end_time - training_start_time) + " seconds")
+
 ner_model.save_pretrained(OUTPUT_DIR + 'model/' + TARGET_CORPUS + '-' + MODEL_CHECKPOINT + '-model')
 
 plt.plot(range(epochs), train_loss_vals, label='Training Loss')
@@ -255,7 +262,7 @@ plt.clf()
 for key in ["precision", "recall", "f1"]:
   plt.plot(range(epochs), overall_metrics[key], label = key + ' score')
 
-plt.title('Weighted Metrics for ' + MODEL_CHECKPOINT + ' Model with ' + TARGET_CORPUS + ' Dataset')
+plt.title('Metrics for ' + MODEL_CHECKPOINT + ' Model with ' + TARGET_CORPUS + ' Dataset')
 plt.xlabel('Epochs')
 plt.ylabel('Score')
 plt.ylim(None, 100)

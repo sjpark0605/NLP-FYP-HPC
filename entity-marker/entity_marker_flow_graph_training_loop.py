@@ -12,6 +12,7 @@ import pandas as pd
 import numpy as np
 import torch
 import argparse
+import time
 
 from transformers import AutoModelForSequenceClassification, get_scheduler
 from datasets import load_from_disk
@@ -171,6 +172,8 @@ progress_bar = tqdm(range(num_training_steps))
 overall_metrics = defaultdict(list)
 train_loss_vals, eval_loss_vals = [], []
 
+training_start_time = time.time()
+
 for epoch in range(epochs):
     # Training
     train_loss_sum = 0
@@ -201,6 +204,10 @@ for epoch in range(epochs):
 
     eval_loss_vals.append(val_loss)
 
+training_end_time = time.time()
+
+print("Training took " + str(training_end_time - training_start_time) + " seconds")
+
 flow_model.save_pretrained(OUTPUT_DIR + 'model/' + TARGET_CORPUS + '-' + MODEL_CHECKPOINT + '-model')
 
 plt.plot(range(1, epochs+1), train_loss_vals, label='Training Loss')
@@ -221,7 +228,7 @@ plt.clf()
 for key in ["precision", "recall", "f1"]:
   plt.plot(range(1, epochs+1), overall_metrics[key], label = key + ' score')
 
-plt.title('Weighted Metrics for ' + MODEL_CHECKPOINT + ' Model with ' + str(int((1.0 - UNDERSAMPLE_FACTOR) * 100)) + '% Undersampled ' + TARGET_CORPUS + ' Dataset')
+plt.title('Metrics for ' + MODEL_CHECKPOINT + ' Model with ' + str(int((1.0 - UNDERSAMPLE_FACTOR) * 100)) + '% Undersampled ' + TARGET_CORPUS + ' Dataset')
 plt.xlabel('Epochs')
 plt.xticks(range(1, epochs+1), [int(i) for i in range(1, epochs+1)])
 

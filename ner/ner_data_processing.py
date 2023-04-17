@@ -28,7 +28,7 @@ parser.add_argument('--t', type=str, help='Recipe Corpus Target: can either be r
 args = parser.parse_args()
 
 TARGET_CORPUS = args.t
-print(TARGET_CORPUS)
+print("Preprocessing " + TARGET_CORPUS + " Corpus")
 
 max_word_count = 0
 
