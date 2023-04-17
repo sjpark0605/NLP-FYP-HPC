@@ -181,14 +181,8 @@ def evaluate(eval_dataloader):
 
         pred_labels, true_labels = postprocess(predictions_gathered, labels_gathered)
 
-        pred_vals.append(pred_labels)
-        true_vals.append(true_labels)
-
-    print(pred_vals)
-    print(true_vals)
-
-    pred_vals = np.concatenate(pred_vals)
-    true_vals = np.concatenate(true_vals)
+        pred_vals += pred_labels
+        true_vals += true_labels
 
     perf_metrics = {
         "overall_precision": precision_score(true_vals, pred_vals, average="weighted", suffix=True),
