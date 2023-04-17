@@ -4,7 +4,7 @@
 #$ -l tmem=4G
 #$ -wd /home/sejipark/NLP-FYP-HPC
 #$ -j y
-#$ -l gpu=true,gpu_type=gtx1080ti
+#$ -l gpu=true
 #$ -pe gpu 1
 #$ -R y
 #$ -m beas
