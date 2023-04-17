@@ -93,11 +93,8 @@ def evaluate(dataloader_val):
         
         label_ids = batch.get('labels').detach().cpu().numpy()
 
-        pred_vals.append(predictions)
-        true_vals.append(label_ids)
-    
-    pred_vals = np.concatenate(pred_vals)
-    true_vals = np.concatenate(true_vals)
+        pred_vals += predictions
+        true_vals += label_ids
 
     perf_metrics = {
         "overall_precision": precision_score(true_vals, pred_vals, average="weighted"),
