@@ -44,6 +44,9 @@ UNDERSAMPLE_FACTOR = args.us
 OUTPUT_DIR = PROJECT_DIR + 'outputs/entity-marker-flow/' + TARGET_CORPUS + '-' + str(UNDERSAMPLE_FACTOR) + '/' + MODEL_CHECKPOINT + '/'
 WEIGHTED_CROSS_ENTROPY = args.weighted
 
+if WEIGHTED_CROSS_ENTROPY:
+   OUTPUT_DIR = PROJECT_DIR + 'outputs/weighted-entity-marker-flow/' + TARGET_CORPUS + '-' + str(UNDERSAMPLE_FACTOR) + '/' + MODEL_CHECKPOINT + '/'
+
 device = torch.device('cpu')
 
 if torch.cuda.is_available():
