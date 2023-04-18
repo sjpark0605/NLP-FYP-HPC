@@ -259,6 +259,8 @@ for key in ["precision", "recall", "f1"]:
 
 plt.title('Metrics for ' + MODEL_CHECKPOINT + ' Model with ' + TARGET_CORPUS + ' Dataset')
 plt.xlabel('Epochs')
+plt.xticks(range(1, epochs+1), [int(i) for i in range(1, epochs+1)])
+
 plt.ylabel('Score')
 plt.ylim(None, 100)
 

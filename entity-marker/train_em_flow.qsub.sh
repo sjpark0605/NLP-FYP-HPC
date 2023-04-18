@@ -4,7 +4,7 @@
 #$ -l tmem=16G
 #$ -wd /home/sejipark/NLP-FYP-HPC
 #$ -j y
-#$ -l gpu=true,gpu_type=rtx2080ti
+#$ -l gpu=true
 #$ -pe gpu 1
 #$ -R y
 #$ -m beas

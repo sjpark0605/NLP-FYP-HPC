@@ -63,11 +63,11 @@ tokenized_datasets = tokenized_datasets.remove_columns(["Word Pairs", "Sentence 
 tokenized_datasets = tokenized_datasets.rename_column("Label", "labels")
 
 train_dataloader = DataLoader(
-    tokenized_datasets["train"], batch_size=32, collate_fn=data_collator
+    tokenized_datasets["train"], batch_size=16, collate_fn=data_collator
 )
 
 eval_dataloader = DataLoader(
-    tokenized_datasets["valid"], batch_size=32, collate_fn=data_collator
+    tokenized_datasets["valid"], batch_size=16, collate_fn=data_collator
 )
 
 label_names = tokenized_datasets["train"].features["labels"].names
@@ -97,9 +97,9 @@ def evaluate(dataloader_val):
         true_vals += label_ids
 
     perf_metrics = {
-        "overall_precision": precision_score(true_vals, pred_vals, average="weighted"),
-        "overall_recall": recall_score(true_vals, pred_vals, average="weighted"),
-        "overall_f1": f1_score(true_vals, pred_vals, average="weighted"),
+        "overall_precision": precision_score(true_vals, pred_vals, average="macro"),
+        "overall_recall": recall_score(true_vals, pred_vals, average="macro"),
+        "overall_f1": f1_score(true_vals, pred_vals, average="macro"),
     }
 
     loss_val_avg = loss_val_total/len(dataloader_val) 
