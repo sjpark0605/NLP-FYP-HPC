@@ -46,10 +46,10 @@ WEIGHTED_CROSS_ENTROPY = args.weighted
 if WEIGHTED_CROSS_ENTROPY:
    OUTPUT_DIR = PROJECT_DIR + 'outputs/weighted-directional-input-flow/' + TARGET_CORPUS + '-' + str(UNDERSAMPLE_FACTOR) + '/' + MODEL_CHECKPOINT + '/'
 
-device = torch.device('cpu')
+device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 
 if torch.cuda.is_available():
-  device = torch.device('cuda')
+    torch.cuda.set_device(0)
 
 corpus_datasets = load_from_disk(PROJECT_DIR + 'datasets/' + TARGET_CORPUS + '-' + str(UNDERSAMPLE_FACTOR) + '-directional-input-flow')
 
