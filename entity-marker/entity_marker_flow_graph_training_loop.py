@@ -126,7 +126,7 @@ if WEIGHTED_CROSS_ENTROPY:
         frequencies[label] += 1
 
   weights = [1 / frequency for frequency in frequencies]
-  weights = torch.tensor(weights).to(device)
+#   weights = torch.tensor(weights).to(device)
 
 accelerator = Accelerator()
 
