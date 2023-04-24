@@ -92,6 +92,7 @@ def evaluate(dataloader_val):
 
         logits = outputs.get("logits")
         predictions = logits.argmax(dim=-1).detach().cpu().numpy()
+        print(predictions)
         
         label_ids = batch.get('labels').detach().cpu().numpy()
 
