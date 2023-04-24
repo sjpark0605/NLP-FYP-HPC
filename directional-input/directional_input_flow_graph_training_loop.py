@@ -92,12 +92,12 @@ def evaluate(dataloader_val):
 
         logits = outputs.get("logits")
         predictions = logits.argmax(dim=-1).detach().cpu().numpy()
-        print(predictions)
         
         label_ids = batch.get('labels').detach().cpu().numpy()
-
-        pred_vals += predictions
-        true_vals += label_ids
+        
+        for prediction, label_id in zip(predictions,label_ids):
+           pred_vals.append(prediction)
+           true_vals.append(label_id)
 
     perf_metrics = {
         "overall_precision": precision_score(true_vals, pred_vals, average="macro"),
