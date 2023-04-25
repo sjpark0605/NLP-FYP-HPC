@@ -1,7 +1,7 @@
 #!/bin/bash
 
-mkdir logs/unweighted
-mkdir logs/weighted
+mkdir -p logs/unweighted
+mkdir -p logs/weighted
 
 arguments1=("r-100" "r-200" "r-300")
 arguments2=(0.0 0.5 0.25 0.1)
