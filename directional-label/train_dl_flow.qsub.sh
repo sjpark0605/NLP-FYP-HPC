@@ -7,6 +7,7 @@
 #$ -l gpu=true,gpu_type=rtx2080ti
 #$ -pe gpu 1
 #$ -R y
+#$ -o /home/sejipark/NLP-FYP-HPC/logs/unweighted
 #$ -m beas
 # Commands to be executed follow.
 
