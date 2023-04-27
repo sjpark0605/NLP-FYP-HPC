@@ -16,7 +16,7 @@ import pickle
 
 from datasets import Dataset, ClassLabel, DatasetDict
 
-PROJECT_DIR = '/cluster/project2/COMP0029_17022125/'
+PROJECT_DIR = '/cluster/project2/COMP0029_17022125/NLP-FYP-HPC/'
 SEED = 2023
 
 # VARIABLES
