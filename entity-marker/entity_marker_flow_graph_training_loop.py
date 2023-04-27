@@ -56,7 +56,7 @@ corpus_datasets = load_from_disk(PROJECT_DIR + 'datasets/' + TARGET_CORPUS + '-'
 
 tokenizer = AutoTokenizer.from_pretrained(MODEL_CHECKPOINT)
 tokenizer.add_tokens(['<e1>', '</e1>', '<e2>', '</e2>'], special_tokens=True)
-tokenizer.save_pretrained(OUTPUT_DIR + 'tokenizer/' + TARGET_CORPUS + '-' + MODEL_CHECKPOINT + '-tokenizer')
+# tokenizer.save_pretrained(OUTPUT_DIR + 'tokenizer/' + TARGET_CORPUS + '-' + MODEL_CHECKPOINT + '-tokenizer')
 
 def tokenize_function(data):
   if data["Second Sentence"] is None:
@@ -209,7 +209,7 @@ training_end_time = time.time()
 
 print("Training took " + str(training_end_time - training_start_time) + " seconds")
 
-flow_model.save_pretrained(OUTPUT_DIR + 'model/' + TARGET_CORPUS + '-' + MODEL_CHECKPOINT + '-model')
+# flow_model.save_pretrained(OUTPUT_DIR + 'model/' + TARGET_CORPUS + '-' + MODEL_CHECKPOINT + '-model')
 
 plt.plot(range(1, epochs+1), train_loss_vals, label='Training Loss')
 plt.plot(range(1, epochs+1), eval_loss_vals, label='Validation Loss')

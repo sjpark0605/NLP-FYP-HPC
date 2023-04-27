@@ -202,7 +202,7 @@ training_end_time = time.time()
 
 print("Training took " + str(training_end_time - training_start_time) + " seconds")
 
-flow_model.save_pretrained(OUTPUT_DIR + 'model/' + TARGET_CORPUS + '-' + MODEL_CHECKPOINT + '-model')
+# flow_model.save_pretrained(OUTPUT_DIR + 'model/' + TARGET_CORPUS + '-' + MODEL_CHECKPOINT + '-model')
 
 plt.plot(range(1, epochs+1), train_loss_vals, label='Training Loss')
 plt.plot(range(1, epochs+1), eval_loss_vals, label='Validation Loss')
