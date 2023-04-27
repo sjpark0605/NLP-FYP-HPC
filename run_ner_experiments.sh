@@ -2,7 +2,7 @@
 
 mkdir -p logs/ner
 
-arguments1=("r-100" "r-200" "r-300")
+arguments1=("r-300" "r-200" "r-100")
 
 for arg1 in "${arguments1[@]}"
 do

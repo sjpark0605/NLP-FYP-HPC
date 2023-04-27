@@ -3,7 +3,7 @@
 mkdir -p logs/unweighted
 mkdir -p logs/weighted
 
-arguments1=("r-100" "r-200" "r-300")
+arguments1=("r-300" "r-200" "r-100")
 arguments2=(0.0 0.5 0.25 0.9)
 
 for arg1 in "${arguments1[@]}"
