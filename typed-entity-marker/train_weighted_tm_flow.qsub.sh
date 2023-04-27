@@ -9,7 +9,7 @@
 #$ -R y
 #$ -o /home/sejipark/NLP-FYP-HPC/logs/weighted
 #$ -m beas
-# Commands to be executed follow.
+
 
 target=$arg1
 undersample=$arg2
