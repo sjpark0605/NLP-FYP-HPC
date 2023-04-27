@@ -8,6 +8,7 @@
 #$ -pe gpu 1
 #$ -R y
 #$ -o /cluster/project2/COMP0029_17022125/NLP-FYP-HPC/logs/weighted
+#$ -l tscratch=5G
 #$ -m beas
 
 
