@@ -1,10 +1,10 @@
 # GPU job script example.
 #$ -S /bin/bash
-#$ -l h_rt=36:00:0
+#$ -l h_rt=24:00:0
 #$ -l tmem=16G
 #$ -wd /home/sejipark/NLP-FYP-HPC
 #$ -j y
-#$ -l gpu=true,gpu_type=rtx2080ti
+#$ -l gpu=true,gpu_type=(titanxp|titanx)
 #$ -pe gpu 1
 #$ -R y
 #$ -o /home/sejipark/NLP-FYP-HPC/logs/unweighted
