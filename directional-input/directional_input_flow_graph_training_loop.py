@@ -27,7 +27,7 @@ from sklearn.metrics import precision_score, recall_score, f1_score, classificat
 
 from collections import defaultdict
 
-PROJECT_DIR = '/home/sejipark/NLP-FYP-HPC/'
+PROJECT_DIR = '/cluster/project2/COMP0029_17022125/'
 MODEL_CHECKPOINT = "bert-base-cased"
 
 parser = argparse.ArgumentParser()

@@ -2,12 +2,12 @@
 #$ -S /bin/bash
 #$ -l h_rt=24:00:0
 #$ -l tmem=16G
-#$ -wd /home/sejipark/NLP-FYP-HPC
+#$ -wd /cluster/project2/COMP0029_17022125
 #$ -j y
 #$ -l gpu=true,gpu_type=(titanxp|titanx)
 #$ -pe gpu 1
 #$ -R y
-#$ -o /home/sejipark/NLP-FYP-HPC/logs/unweighted
+#$ -o /cluster/project2/COMP0029_17022125/logs/unweighted
 #$ -m beas
 # Commands to be executed follow.
 
@@ -17,9 +17,9 @@ epochs=$arg3
 
 source /share/apps/source_files/python/python-3.9.5.source
 source /share/apps/source_files/cuda/cuda-11.0.source
-source /home/sejipark/NLP-FYP-HPC/.venv/bin/activate
-python3 /home/sejipark/NLP-FYP-HPC/typed-entity-marker/typed_entity_marker_flow_graph_data_processing.py --t "$target" --us "$undersample"
-python3 /home/sejipark/NLP-FYP-HPC/typed-entity-marker/typed_entity_marker_flow_graph_training_loop.py  --t "$target" --us "$undersample" --epochs "$epochs"
+source /cluster/project2/COMP0029_17022125/.venv/bin/activate
+python3 /cluster/project2/COMP0029_17022125/typed-entity-marker/typed_entity_marker_flow_graph_data_processing.py --t "$target" --us "$undersample"
+python3 /cluster/project2/COMP0029_17022125/typed-entity-marker/typed_entity_marker_flow_graph_training_loop.py  --t "$target" --us "$undersample" --epochs "$epochs"
 hostname
 date
 /home/sejipark/test

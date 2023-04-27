@@ -18,4 +18,4 @@ fi
 job_name="${target}_NER_Training_with_${epochs}_Epochs"
 
 # Print the values of the arguments to the console
-qsub -N ${job_name} -v arg1="$target",arg2="$epochs" /home/sejipark/NLP-FYP-HPC/ner/train_ner.qsub.sh 
+qsub -N ${job_name} -v arg1="$target",arg2="$epochs" /cluster/project2/COMP0029_17022125/ner/train_ner.qsub.sh 

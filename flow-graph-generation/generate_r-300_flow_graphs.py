@@ -23,7 +23,7 @@ device = torch.device('cpu')
 if torch.cuda.is_available():
   device = torch.device('cuda')
 
-PROJECT_DIR = '/home/sejipark/NLP-FYP-HPC/'
+PROJECT_DIR = '/cluster/project2/COMP0029_17022125/'
 
 NER_FILES, FLOW_FILES = [], []
 

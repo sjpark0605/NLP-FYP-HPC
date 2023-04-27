@@ -16,7 +16,7 @@ import argparse
 
 from datasets import Dataset, ClassLabel, DatasetDict
 
-PROJECT_DIR = '/home/sejipark/NLP-FYP-HPC/'
+PROJECT_DIR = '/cluster/project2/COMP0029_17022125/'
 SEED = 2023
 
 parser = argparse.ArgumentParser()
