@@ -13,6 +13,7 @@ import numpy as np
 import torch
 import argparse
 import time
+import os
 
 from transformers import AutoModelForSequenceClassification, get_scheduler
 from datasets import load_from_disk
@@ -46,6 +47,8 @@ WEIGHTED_CROSS_ENTROPY = args.weighted
 
 if WEIGHTED_CROSS_ENTROPY:
    OUTPUT_DIR = PROJECT_DIR + 'outputs/weighted-typed-entity-marker-flow/' + TARGET_CORPUS + '-' + str(UNDERSAMPLE_FACTOR) + '/' + MODEL_CHECKPOINT + '/'
+
+os.makedirs(OUTPUT_DIR)
 
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 
