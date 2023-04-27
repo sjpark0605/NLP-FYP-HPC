@@ -7,6 +7,7 @@
 #$ -l gpu=true
 #$ -pe gpu 1
 #$ -R y
+#$ -o /cluster/project2/COMP0029_17022125/logs/ner
 #$ -m beas
 # Commands to be executed follow.
 
