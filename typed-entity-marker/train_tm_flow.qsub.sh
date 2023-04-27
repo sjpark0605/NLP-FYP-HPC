@@ -10,7 +10,6 @@
 #$ -o /cluster/project2/COMP0029_17022125/NLP-FYP-HPC/logs/unweighted
 #$ -l tscratch=5G
 #$ -m beas
-# Commands to be executed follow.
 
 target=$arg1
 undersample=$arg2
@@ -23,4 +22,3 @@ python3 /cluster/project2/COMP0029_17022125/NLP-FYP-HPC/typed-entity-marker/type
 python3 /cluster/project2/COMP0029_17022125/NLP-FYP-HPC/typed-entity-marker/typed_entity_marker_flow_graph_training_loop.py  --t "$target" --us "$undersample" --epochs "$epochs"
 hostname
 date
-/home/sejipark/test

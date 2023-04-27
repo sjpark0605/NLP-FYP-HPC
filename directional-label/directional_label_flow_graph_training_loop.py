@@ -30,6 +30,7 @@ from sklearn.metrics import precision_score, recall_score, f1_score, classificat
 from collections import defaultdict
 
 PROJECT_DIR = '/cluster/project2/COMP0029_17022125/NLP-FYP-HPC/'
+SCRATCH_SPACE = '/scratch0/COMP0029_17022125/NLP-FYP-HPC/'
 MODEL_CHECKPOINT = "bert-base-cased"
 
 parser = argparse.ArgumentParser()
@@ -55,7 +56,7 @@ device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 if torch.cuda.is_available():
     torch.cuda.set_device(0)
 
-corpus_datasets = load_from_disk(PROJECT_DIR + 'datasets/' + TARGET_CORPUS + '-' + str(UNDERSAMPLE_FACTOR) + '-directional-label-flow')
+corpus_datasets = load_from_disk(SCRATCH_SPACE + 'datasets/' + TARGET_CORPUS + '-' + str(UNDERSAMPLE_FACTOR) + '-directional-label-flow')
 
 tokenizer = AutoTokenizer.from_pretrained(MODEL_CHECKPOINT)
 

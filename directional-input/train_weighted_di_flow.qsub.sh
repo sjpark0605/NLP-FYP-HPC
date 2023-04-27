@@ -8,8 +8,8 @@
 #$ -pe gpu 1
 #$ -R y
 #$ -o /cluster/project2/COMP0029_17022125/NLP-FYP-HPC/logs/weighted
+#$ -l tscratch=5G
 #$ -m beas
-# Commands to be executed follow.
 
 target=$arg1
 undersample=$arg2
@@ -22,4 +22,3 @@ python3 /cluster/project2/COMP0029_17022125/NLP-FYP-HPC/directional-input/direct
 python3 /cluster/project2/COMP0029_17022125/NLP-FYP-HPC/directional-input/directional_input_flow_graph_training_loop.py  --t "$target" --us "$undersample" --epochs "$epochs" --weighted
 hostname
 date
-/home/sejipark/test

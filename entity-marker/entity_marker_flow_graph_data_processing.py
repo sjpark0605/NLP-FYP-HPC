@@ -17,6 +17,7 @@ import argparse
 from datasets import Dataset, ClassLabel, DatasetDict
 
 PROJECT_DIR = '/cluster/project2/COMP0029_17022125/NLP-FYP-HPC/'
+SCRATCH_SPACE = '/scratch0/COMP0029_17022125/NLP-FYP-HPC/'
 SEED = 2023
 
 parser = argparse.ArgumentParser()
@@ -287,6 +288,6 @@ corpus_datasets = DatasetDict({
     "valid": split_dataset["test"],
 })
 
-corpus_datasets.save_to_disk(PROJECT_DIR + 'datasets/' + TARGET_CORPUS + '-' + str(UNDERSAMPLE_FACTOR) + '-entity-marked-flow')
+corpus_datasets.save_to_disk(SCRATCH_SPACE + 'datasets/' + TARGET_CORPUS + '-' + str(UNDERSAMPLE_FACTOR) + '-entity-marked-flow')
 
 df['Label'].value_counts().sum() - df['Label'].value_counts()['non-edge'] - GLOBAL_EDGE_COUNT <= 1
