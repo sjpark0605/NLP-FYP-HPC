@@ -4,7 +4,7 @@
 #$ -l tmem=16G
 #$ -wd /cluster/project2/COMP0029_17022125/NLP-FYP-HPC
 #$ -j y
-#$ -l gpu=true,gpu_type=rtx2080ti
+#$ -l gpu=true
 #$ -pe gpu 1
 #$ -R y
 #$ -o /cluster/project2/COMP0029_17022125/NLP-FYP-HPC/logs/weighted
