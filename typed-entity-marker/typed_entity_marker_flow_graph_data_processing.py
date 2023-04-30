@@ -192,7 +192,7 @@ def construct_sentence(ner_lines, ner_dict, position, target_word_positions, typ
         sentence += items[3]
 
   if marking != -1:
-    sentence += (' </e' + str(marking) + '>')
+    sentence += (' </e' + str(marking) + ' type=' + marking_ner_tag.replace('-B', '').replace('-I','') + '>')
 
   return sentence
 
