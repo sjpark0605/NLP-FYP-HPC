@@ -212,7 +212,7 @@ print("Training took " + str(training_end_time - training_start_time) + " second
 plt.plot(range(1, epochs+1), train_loss_vals, label='Training Loss')
 plt.plot(range(1, epochs+1), eval_loss_vals, label='Validation Loss')
 
-plt.title('Loss for ' + MODEL_CHECKPOINT + ' Model with ' + str(int((1.0 - UNDERSAMPLE_FACTOR) * 100)) + '% Undersampled ' + TARGET_CORPUS + ' Dataset')
+plt.title('Loss for ' + MODEL_CHECKPOINT + ' Model with ' + TARGET_CORPUS + ' Dataset')
 plt.xlabel('Epochs')
 plt.xticks(range(1, epochs+1), [int(i) for i in range(1, epochs+1)])
 
@@ -227,7 +227,7 @@ plt.clf()
 for key in ["precision", "recall", "f1"]:
   plt.plot(range(1, epochs+1), overall_metrics[key], label = key + ' score')
 
-plt.title('Metrics for ' + MODEL_CHECKPOINT + ' Model with ' + str(int((1.0 - UNDERSAMPLE_FACTOR) * 100)) + '% Undersampled ' + TARGET_CORPUS + ' Dataset')
+plt.title('Metrics for ' + MODEL_CHECKPOINT + ' Model with ' + TARGET_CORPUS + ' Dataset')
 plt.xlabel('Epochs')
 plt.xticks(range(1, epochs+1), [int(i) for i in range(1, epochs+1)])
 
