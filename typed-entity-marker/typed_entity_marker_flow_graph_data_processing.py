@@ -171,7 +171,7 @@ def construct_sentence(ner_lines, ner_dict, position, target_word_positions, typ
         word_key = encode_key((items[0], items[1], items[2]))
         
         if marking_ner_tag.replace('-B', '-I') != ner_dict[word_key]:
-          sentence += (' </e' + str(marking) + ' type=' + marking_ner_tag.replace('-B', '').replace('-I','') + '>')
+          sentence += (' </e' + str(marking) + '>')
           marking, marking_ner_tag = -1, None
 
       if not first_word:
@@ -192,7 +192,7 @@ def construct_sentence(ner_lines, ner_dict, position, target_word_positions, typ
         sentence += items[3]
 
   if marking != -1:
-    sentence += (' </e' + str(marking) + ' type=' + marking_ner_tag.replace('-B', '').replace('-I','') + '>')
+    sentence += (' </e' + str(marking) + '>')
 
   return sentence
 
@@ -203,8 +203,8 @@ def check_sentence_sanity(sentence):
   marker_pairs = []
 
   for entity in entities:
-    marker_pairs.append(('<e1 type=' + entity + '>', '</e1 type=' + entity + '>'))
-    marker_pairs.append(('<e2 type=' + entity + '>', '</e2 type=' + entity + '>'))
+    marker_pairs.append(('<e1 type=' + entity + '>', '</e1>'))
+    marker_pairs.append(('<e2 type=' + entity + '>', '</e2>'))
 
   for opening_tag, closing_tag in marker_pairs:
     if opening_tag in sentence:

@@ -63,9 +63,10 @@ markers = []
 
 for entity in entities:
   markers.append('<e1 type=' + entity + '>')
-  markers.append('</e1 type=' + entity + '>')
   markers.append('<e2 type=' + entity + '>')
-  markers.append('</e2 type=' + entity + '>')
+  
+markers.append('</e1>')
+markers.append('</e2>')
 
 tokenizer = AutoTokenizer.from_pretrained(MODEL_CHECKPOINT)
 tokenizer.add_tokens(markers, special_tokens=True)
