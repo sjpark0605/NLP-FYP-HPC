@@ -11,6 +11,6 @@ do
   for arg2 in "${arguments2[@]}"
   do
     # ./submit_flow_jobs.sh -t "$arg1" -u "$arg2" -e 4
-    ./submit_flow_jobs.sh -t "$arg1" -u "$arg2" -e 4 --weighted
+    ./submit_weighted_flow_jobs.sh -t "$arg1" -u "$arg2" -e 4
   done
 done
