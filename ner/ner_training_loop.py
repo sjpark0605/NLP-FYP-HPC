@@ -147,6 +147,8 @@ lr_scheduler = get_scheduler(
   num_training_steps=num_training_steps,
 )
 
+loss_fct = torch.nn.CrossEntropyLoss()  
+
 def postprocess(predictions, labels):
     predictions = predictions.detach().cpu().clone().numpy()
     labels = labels.detach().cpu().clone().numpy()
@@ -168,10 +170,11 @@ def evaluate(eval_dataloader):
         with torch.no_grad():
             outputs = ner_model(**batch)
             
-        loss_val_total += outputs.get("loss").item()
-
         predictions = outputs.logits.argmax(dim=-1)
         labels = batch["labels"]
+        logits = outputs.get("logits")
+        loss = loss_fct(logits.view(-1, ner_model.config.num_labels), labels.view(-1))
+        loss_val_total += loss.item()
 
         predictions = accelerator.pad_across_processes(predictions, dim=1, pad_index=-100)
         labels = accelerator.pad_across_processes(labels, dim=1, pad_index=-100)
@@ -212,7 +215,7 @@ for epoch in range(epochs):
         outputs = ner_model(**batch)
 
         logits = outputs.get("logits")
-        loss = outputs.loss
+        loss = loss_fct(logits.view(-1, ner_model.config.num_labels), labels.view(-1))
 
         train_loss_val += loss.item()
 
