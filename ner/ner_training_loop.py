@@ -100,13 +100,13 @@ label2id = {v: k for k, v in id2label.items()}
 train_dataloader = DataLoader(
   tokenized_datasets["train"],
   collate_fn=data_collator,
-  batch_size=16,
+  batch_size=32,
 )
 
 eval_dataloader = DataLoader(
   tokenized_datasets["valid"], 
   collate_fn=data_collator, 
-  batch_size=16,
+  batch_size=32,
 )
 
 ner_model = AutoModelForTokenClassification.from_pretrained(
@@ -172,6 +172,7 @@ def evaluate(eval_dataloader):
             
         predictions = outputs.logits.argmax(dim=-1)
         labels = batch["labels"]
+
         logits = outputs.get("logits")
         loss = loss_fct(logits.view(-1, ner_model.config.num_labels), labels.view(-1))
         loss_val_total += loss.item()
@@ -213,7 +214,6 @@ for epoch in range(epochs):
         labels = batch.get("labels")
 
         outputs = ner_model(**batch)
-
         logits = outputs.get("logits")
         loss = loss_fct(logits.view(-1, ner_model.config.num_labels), labels.view(-1))
 
