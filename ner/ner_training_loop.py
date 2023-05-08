@@ -17,6 +17,7 @@ import evaluate
 import torch
 import argparse
 import time
+import os
 
 from tqdm.auto import tqdm
 from matplotlib import pyplot as plt
@@ -45,6 +46,9 @@ TARGET_CORPUS = args.t
 print("Training with " + TARGET_CORPUS + " Corpus")
 
 OUTPUT_DIR = PROJECT_DIR + 'outputs/ner/' + TARGET_CORPUS + '/' + MODEL_CHECKPOINT + '/'
+
+if not os.path.exists(OUTPUT_DIR):
+   os.mkdir(OUTPUT_DIR)
 
 device = torch.device('cpu')
 
@@ -240,7 +244,7 @@ training_end_time = time.time()
 
 print("Training took " + str(training_end_time - training_start_time) + " seconds")
 
-ner_model.save_pretrained(OUTPUT_DIR + 'model/' + TARGET_CORPUS + '-' + MODEL_CHECKPOINT + '-model')
+# ner_model.save_pretrained(OUTPUT_DIR + 'model/' + TARGET_CORPUS + '-' + MODEL_CHECKPOINT + '-model')
 
 plt.plot(range(1, epochs+1), train_loss_vals, label='Training Loss')
 plt.plot(range(1, epochs+1), eval_loss_vals, label='Validation Loss')
