@@ -100,13 +100,13 @@ label2id = {v: k for k, v in id2label.items()}
 train_dataloader = DataLoader(
   tokenized_datasets["train"],
   collate_fn=data_collator,
-  batch_size=32,
+  batch_size=16,
 )
 
 eval_dataloader = DataLoader(
   tokenized_datasets["valid"], 
   collate_fn=data_collator, 
-  batch_size=32,
+  batch_size=16,
 )
 
 ner_model = AutoModelForTokenClassification.from_pretrained(
@@ -239,8 +239,8 @@ print("Training took " + str(training_end_time - training_start_time) + " second
 
 ner_model.save_pretrained(OUTPUT_DIR + 'model/' + TARGET_CORPUS + '-' + MODEL_CHECKPOINT + '-model')
 
-plt.plot(range(epochs), train_loss_vals, label='Training Loss')
-plt.plot(range(epochs), eval_loss_vals, label='Validation Loss')
+plt.plot(range(1, epochs+1), train_loss_vals, label='Training Loss')
+plt.plot(range(1, epochs+1), eval_loss_vals, label='Validation Loss')
 
 plt.title('Loss for ' + MODEL_CHECKPOINT + ' Model with ' + TARGET_CORPUS + ' Dataset')
 plt.xlabel('Epochs')
@@ -255,9 +255,9 @@ plt.savefig(OUTPUT_DIR + "train_valid_losses.png")
 
 plt.clf()
 for key in ["precision", "recall", "f1"]:
-  plt.plot(range(epochs), overall_metrics[key], label = key + ' score')
+  plt.plot(range(1, epochs+1), overall_metrics[key], label = key + ' score')
 
-plt.title('Metrics for ' + MODEL_CHECKPOINT + ' Model with ' + TARGET_CORPUS + ' Dataset')
+plt.title('Weighted Metrics for ' + MODEL_CHECKPOINT + ' Model with ' + TARGET_CORPUS + ' Dataset')
 plt.xlabel('Epochs')
 plt.xticks(range(1, epochs+1), [int(i) for i in range(1, epochs+1)])
 
