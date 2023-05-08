@@ -10,7 +10,6 @@ for arg1 in "${arguments1[@]}"
 do
   for arg2 in "${arguments2[@]}"
   do
-    # ./submit_flow_jobs.sh -t "$arg1" -u "$arg2" -e 4
-    ./submit_weighted_flow_jobs.sh -t "$arg1" -u "$arg2" -e 4
+    ./submit_weighted_flow_jobs.sh -t "$arg1" -u "$arg2" -e 6
   done
 done
