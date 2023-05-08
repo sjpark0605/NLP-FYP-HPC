@@ -48,7 +48,7 @@ print("Training with " + TARGET_CORPUS + " Corpus")
 OUTPUT_DIR = PROJECT_DIR + 'outputs/ner/' + TARGET_CORPUS + '/' + MODEL_CHECKPOINT + '/'
 
 if not os.path.exists(OUTPUT_DIR):
-   os.mkdir(OUTPUT_DIR)
+   os.makedirs(OUTPUT_DIR)
 
 device = torch.device('cpu')
 
