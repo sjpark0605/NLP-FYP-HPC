@@ -104,13 +104,13 @@ label2id = {v: k for k, v in id2label.items()}
 train_dataloader = DataLoader(
   tokenized_datasets["train"],
   collate_fn=data_collator,
-  batch_size=128,
+  batch_size=8,
 )
 
 eval_dataloader = DataLoader(
   tokenized_datasets["valid"], 
   collate_fn=data_collator, 
-  batch_size=128,
+  batch_size=8,
 )
 
 ner_model = AutoModelForTokenClassification.from_pretrained(
