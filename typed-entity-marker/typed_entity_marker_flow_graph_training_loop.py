@@ -234,6 +234,7 @@ for epoch in range(epochs):
 
     for key in overall_metrics.keys():
         overall_metrics[key].append(perf_metrics[key] * 100)
+        print(overall_metrics[key])
 
     eval_loss_vals.append(val_loss)
 
