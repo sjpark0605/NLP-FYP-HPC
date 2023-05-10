@@ -109,6 +109,20 @@ def evaluate(dataloader_val):
            pred_vals.append(prediction)
            true_vals.append(label_id)
 
+    labeled_preds = [label_names[pred_val] for pred_val in pred_vals]
+    labeled_trues = [label_names[true_val] for true_val in true_vals]
+
+    individual_metrics = classification_report(labeled_trues, labeled_preds, output_dict=True)
+    total_label_count = individual_metrics['macro avg']['support']
+    non_edge_count = individual_metrics['non-edge']['support']
+
+    weighted_f1 = individual_metrics['weighted avg']['f1-score']
+    non_edge_f1 = individual_metrics['non-edge']['f1-score']
+    edge_f1 = ((weighted_f1 * total_label_count) - (non_edge_f1 * non_edge_count)) / (total_label_count - non_edge_count)
+
+    print("Non Edge " + str(non_edge_f1))
+    print("Edge " + str(edge_f1))
+
     perf_metrics = {
         "overall_precision": precision_score(true_vals, pred_vals, average="macro"),
         "overall_recall": recall_score(true_vals, pred_vals, average="macro"),
