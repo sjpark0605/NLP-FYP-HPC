@@ -118,17 +118,23 @@ def evaluate(dataloader_val):
 
     weighted_f1 = individual_metrics['weighted avg']['f1-score']
     non_edge_f1 = individual_metrics['non-edge']['f1-score']
-    edge_f1 = ((weighted_f1 * total_label_count) - (non_edge_f1 * non_edge_count)) / (total_label_count - non_edge_count)
+    macro_f1 = individual_metrics['macro avg']['f1-score']
+
+    weighted_edge_f1 = ((weighted_f1 * total_label_count) - (non_edge_f1 * non_edge_count)) / (total_label_count - non_edge_count)
+    macro_edge_f1 = ((macro_f1 * len(label_names)) - non_edge_f1) / (len(label_names) - 1)
 
     print("Non Edge " + str(non_edge_f1))
-    print("Edge " + str(edge_f1))
+    print("Weighted Edge: " + str(weighted_edge_f1))
+    print("Macro Edge " + str(macro_edge_f1))
 
     perf_metrics = {
         "Macro Precision": precision_score(true_vals, pred_vals, average="macro"),
         "Macro Recall": recall_score(true_vals, pred_vals, average="macro"),
         "Macro F1": f1_score(true_vals, pred_vals, average="macro"),
         "Weighted F1": f1_score(true_vals, pred_vals, average="weighted"),
-        "Edge F1": edge_f1,
+        "Macro Edge F1": f1_score(true_vals, pred_vals, average="weighted"),
+        "Weighted Edge F1": weighted_edge_f1,
+        "Macro Edge F1": macro_edge_f1,
         "Non-Edge F1": non_edge_f1
     }
 
@@ -276,7 +282,7 @@ plt.legend()
 plt.savefig(OUTPUT_DIR + "f1_comparison.png")
 
 plt.clf()
-for key in ["Edge F1", "Non-Edge F1"]:
+for key in ["Macro Edge F1", "Weighted Edge F1", "Non-Edge F1"]:
   plt.plot(range(1, epochs+1), overall_metrics[key], label = key)
 
 plt.title('Edge Metrics for ' + MODEL_CHECKPOINT + ' Model with ' + TARGET_CORPUS + ' Dataset')

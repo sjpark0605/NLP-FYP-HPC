@@ -9,13 +9,10 @@ Original file is located at
 
 import glob
 import torch
-import networkx as nx
-import matplotlib.pyplot as plt
 import pydot
 import os
 
-from transformers import pipeline, AutoTokenizer, AutoModelForTokenClassification, AutoModelForSequenceClassification
-from IPython.display import Image
+from transformers import AutoTokenizer, AutoModelForTokenClassification, AutoModelForSequenceClassification
 from pathlib import Path
 
 device = torch.device('cpu')
