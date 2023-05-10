@@ -258,10 +258,10 @@ plt.legend()
 plt.savefig(OUTPUT_DIR + "train_valid_losses.png")
 
 plt.clf()
-for key in ["Macro Precision", "Macro Recall", "Macro F1", "Weighted F1"]:
+for key in ["Macro Precision", "Macro Recall", "Macro F1"]:
   plt.plot(range(1, epochs+1), overall_metrics[key], label = key)
 
-plt.title('Overall Metrics for ' + MODEL_CHECKPOINT + ' Model with ' + TARGET_CORPUS + ' Dataset')
+plt.title('Macro Metrics for ' + MODEL_CHECKPOINT + ' Model with ' + TARGET_CORPUS + ' Dataset')
 plt.xlabel('Epochs')
 plt.xticks(range(1, epochs+1), [int(i) for i in range(1, epochs+1)])
 
@@ -269,7 +269,21 @@ plt.ylabel('Score')
 plt.ylim(None, 100)
 
 plt.legend()
-plt.savefig(OUTPUT_DIR + "overall_metrics.png")
+plt.savefig(OUTPUT_DIR + "macro_metrics.png")
+
+plt.clf()
+for key in ["Macro F1", "Weighted F1"]:
+  plt.plot(range(1, epochs+1), overall_metrics[key], label = key)
+
+plt.title('F1 for ' + MODEL_CHECKPOINT + ' Model with ' + TARGET_CORPUS + ' Dataset')
+plt.xlabel('Epochs')
+plt.xticks(range(1, epochs+1), [int(i) for i in range(1, epochs+1)])
+
+plt.ylabel('Score')
+plt.ylim(None, 100)
+
+plt.legend()
+plt.savefig(OUTPUT_DIR + "f1_comparison.png")
 
 plt.clf()
 for key in ["Edge F1", "Non-Edge F1"]:
