@@ -34,7 +34,7 @@ from collections import defaultdict
 
 # REPLACE CONSTANTS AS APPROPRIATE
 PROJECT_DIR = '/cluster/project2/COMP0029_17022125/NLP-FYP-HPC/'
-MODEL_CHECKPOINT = "bert-base-cased"
+MODEL_CHECKPOINT = "bert-base-uncased"
 
 parser = argparse.ArgumentParser()
 parser.add_argument('--t', type=str, help='Recipe Corpus Target: can either be r-100, r-200, or r-300')
@@ -104,13 +104,13 @@ label2id = {v: k for k, v in id2label.items()}
 train_dataloader = DataLoader(
   tokenized_datasets["train"],
   collate_fn=data_collator,
-  batch_size=128,
+  batch_size=32,
 )
 
 eval_dataloader = DataLoader(
   tokenized_datasets["valid"], 
   collate_fn=data_collator, 
-  batch_size=128,
+  batch_size=32,
 )
 
 ner_model = AutoModelForTokenClassification.from_pretrained(
