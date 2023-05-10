@@ -49,7 +49,8 @@ WEIGHTED_CROSS_ENTROPY = args.weighted
 if WEIGHTED_CROSS_ENTROPY:
    OUTPUT_DIR = PROJECT_DIR + 'outputs/weighted-entity-marker-flow/' + TARGET_CORPUS + '-' + str(UNDERSAMPLE_FACTOR) + '/' + MODEL_CHECKPOINT + '/'
 
-os.makedirs(OUTPUT_DIR)
+if not os.path.exists(OUTPUT_DIR):
+  os.makedirs(OUTPUT_DIR)
 
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 
