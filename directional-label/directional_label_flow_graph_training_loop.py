@@ -120,9 +120,12 @@ def evaluate(dataloader_val):
     print("Edge " + str(edge_f1))
 
     perf_metrics = {
-        "overall_precision": precision_score(true_vals, pred_vals, average="macro"),
-        "overall_recall": recall_score(true_vals, pred_vals, average="macro"),
-        "overall_f1": f1_score(true_vals, pred_vals, average="macro"),
+        "Macro Precision": precision_score(true_vals, pred_vals, average="macro"),
+        "Macro Recall": recall_score(true_vals, pred_vals, average="macro"),
+        "Macro F1": f1_score(true_vals, pred_vals, average="macro"),
+        "Weighted F1": f1_score(true_vals, pred_vals, average="weighted"),
+        "Edge F1": edge_f1,
+        "Non-Edge F1": non_edge_f1
     }
 
     loss_val_avg = loss_val_total/len(dataloader_val) 
@@ -213,8 +216,8 @@ for epoch in range(epochs):
     # Evaluation
     perf_metrics, val_loss, _, _ = evaluate(eval_dl)
 
-    for key in ["precision", "recall", "f1"]:
-        overall_metrics[key].append(perf_metrics[f"overall_{key}"] * 100)
+    for key in overall_metrics.keys():
+        overall_metrics[key].append(perf_metrics[key] * 100)
 
     eval_loss_vals.append(val_loss)
 
@@ -239,10 +242,10 @@ plt.legend()
 plt.savefig(OUTPUT_DIR + "train_valid_losses.png")
 
 plt.clf()
-for key in ["precision", "recall", "f1"]:
-  plt.plot(range(1, epochs+1), overall_metrics[key], label = key + ' score')
+for key in ["Macro Precision", "Macro Recall", "Macro F1", "Weighted F1"]:
+  plt.plot(range(1, epochs+1), overall_metrics[key], label = key)
 
-plt.title('Metrics for ' + MODEL_CHECKPOINT + ' Model with ' + TARGET_CORPUS + ' Dataset')
+plt.title('Overall Metrics for ' + MODEL_CHECKPOINT + ' Model with ' + TARGET_CORPUS + ' Dataset')
 plt.xlabel('Epochs')
 plt.xticks(range(1, epochs+1), [int(i) for i in range(1, epochs+1)])
 
@@ -250,7 +253,21 @@ plt.ylabel('Score')
 plt.ylim(None, 100)
 
 plt.legend()
-plt.savefig(OUTPUT_DIR + "metrics.png")
+plt.savefig(OUTPUT_DIR + "overall_metrics.png")
+
+plt.clf()
+for key in ["Edge F1", "Non-Edge F1"]:
+  plt.plot(range(1, epochs+1), overall_metrics[key], label = key)
+
+plt.title('Edge Metrics for ' + MODEL_CHECKPOINT + ' Model with ' + TARGET_CORPUS + ' Dataset')
+plt.xlabel('Epochs')
+plt.xticks(range(1, epochs+1), [int(i) for i in range(1, epochs+1)])
+
+plt.ylabel('Score')
+plt.ylim(None, 100)
+
+plt.legend()
+plt.savefig(OUTPUT_DIR + "edge_metrics.png")
 
 _, _, pred_vals, true_vals = evaluate(eval_dl)
 
