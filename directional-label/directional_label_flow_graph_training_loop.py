@@ -216,7 +216,7 @@ for epoch in range(epochs):
     # Evaluation
     perf_metrics, val_loss, _, _ = evaluate(eval_dl)
 
-    for key in overall_metrics.keys():
+    for key in perf_metrics.keys():
         overall_metrics[key].append(perf_metrics[key] * 100)
 
     eval_loss_vals.append(val_loss)
