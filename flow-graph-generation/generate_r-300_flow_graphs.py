@@ -389,7 +389,7 @@ def generate_predicted_graph(nodes, edges, dest_folder):
             graph.add_edge(pydot_edge)
 
     print("Writing Predicted PNG")
-    graph.write_png(dest_folder + "/predicted_flow_graph.png")
+    graph.write_png(dest_folder + "predicted_flow_graph.png")
     print("Wrote Predicted PNG")
 
 
