@@ -434,6 +434,8 @@ def generate_true_graph(nodes, edges, dest_folder):
     print("Wrote Predicted PNG")
 
 
+pydot.graphviz.debug = True
+
 for ner_file, flow_file in tqdm(
     zip(NER_FILES, FLOW_FILES), desc="Generating Flow Graphs", position=0
 ):
