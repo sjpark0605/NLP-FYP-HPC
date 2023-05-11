@@ -36,7 +36,7 @@ NER_FILES.sort()
 FLOW_FILES.sort()
 
 ner_model = AutoModelForTokenClassification.from_pretrained(
-    PROJECT_DIR + "saved_models/ner/ner-model"
+    PROJECT_DIR + "saved-models/ner-model"
 ).to(device)
 ner_tokenizer = AutoTokenizer.from_pretrained("bert-base-cased")
 
@@ -113,7 +113,7 @@ def obtain_true_ner_tags(ner_lines):
 
 
 flow_model = AutoModelForSequenceClassification.from_pretrained(
-    PROJECT_DIR + "saved_models/entity_marking/flow-graph-optimized-parameter-model"
+    PROJECT_DIR + "saved-models/entity-marker-model"
 ).to(device)
 flow_tokenizer = AutoTokenizer.from_pretrained(PROJECT_DIR + "tokenizers/entity-marker")
 
@@ -121,7 +121,7 @@ flow_id2label = flow_model.config.id2label
 
 import pickle
 
-with open(PROJECT_DIR + "relation_set.pickle", "rb") as relation_set_file:
+with open(PROJECT_DIR + "r-300-relation_set.pickle", "rb") as relation_set_file:
     RELATION_SET = pickle.load(relation_set_file)
 
 
