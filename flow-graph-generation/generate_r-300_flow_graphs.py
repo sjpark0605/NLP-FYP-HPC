@@ -13,6 +13,7 @@ from pathlib import Path
 
 import pydot
 import torch
+from tqdm import tqdm
 from transformers import (
     AutoModelForSequenceClassification,
     AutoModelForTokenClassification,
@@ -427,7 +428,9 @@ def generate_true_graph(nodes, edges, dest_folder):
     graph.write_png(dest_folder + "true_flow_graph.png")
 
 
-for ner_file, flow_file in zip(NER_FILES, FLOW_FILES):
+for ner_file, flow_file in tqdm(
+    zip(NER_FILES, FLOW_FILES), desc="Generating Flow Graphs", position=0
+):
     ner_data, flow_data = open(ner_file, "r", encoding="utf-8"), open(
         flow_file, "r", encoding="utf-8"
     )
