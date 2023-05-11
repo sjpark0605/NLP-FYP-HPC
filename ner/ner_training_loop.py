@@ -62,6 +62,7 @@ label_names = ner_feature.feature.names
 pure_label_names = list(set(label.replace("-B", "").replace("-I", "") for label in label_names))
 
 tokenizer = AutoTokenizer.from_pretrained(MODEL_CHECKPOINT)
+tokenizer.save_pretrained(OUTPUT_DIR + 'tokenizer/' + TARGET_CORPUS + '-' + MODEL_CHECKPOINT + '-tokenizer')
 
 def align_labels_with_tokens(labels, word_ids):
   new_labels = []
@@ -244,7 +245,7 @@ training_end_time = time.time()
 
 print("Training took " + str(training_end_time - training_start_time) + " seconds")
 
-# ner_model.save_pretrained(OUTPUT_DIR + 'model/' + TARGET_CORPUS + '-' + MODEL_CHECKPOINT + '-model')
+ner_model.save_pretrained(OUTPUT_DIR + 'model/' + TARGET_CORPUS + '-' + MODEL_CHECKPOINT + '-model')
 
 plt.plot(range(1, epochs+1), train_loss_vals, label='Training Loss')
 plt.plot(range(1, epochs+1), eval_loss_vals, label='Validation Loss')
