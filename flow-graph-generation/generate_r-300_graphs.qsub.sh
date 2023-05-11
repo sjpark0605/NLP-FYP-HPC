@@ -7,7 +7,7 @@
 #$ -l gpu=true
 #$ -pe gpu 1
 #$ -R y
-#$ -o /cluster/project2/COMP0029_17022125/NLP-FYP-HPC/logs/ner
+#$ -o /cluster/project2/COMP0029_17022125/NLP-FYP-HPC/logs/generate_flow
 #$ -m beas
 # Commands to be executed follow.
 
