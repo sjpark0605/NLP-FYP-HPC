@@ -312,9 +312,7 @@ def food_recipe_to_true_flow_graph(ner_lines, flow_lines):
     entity_pairs, labels = construct_true_entity_pairs_with_labels(flow_lines)
     phrase_dict = construct_phrase_dict(word_dict, ner_dict)
 
-    edges = obtain_true_flow_edges(
-        word_dict, ner_dict, phrase_dict, entity_pairs, labels
-    )
+    edges = obtain_true_flow_edges(ner_dict, phrase_dict, entity_pairs, labels)
     nodes = set()
 
     for edge in edges:
