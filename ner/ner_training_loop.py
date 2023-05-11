@@ -34,7 +34,7 @@ from collections import defaultdict
 
 # REPLACE CONSTANTS AS APPROPRIATE
 PROJECT_DIR = '/cluster/project2/COMP0029_17022125/NLP-FYP-HPC/'
-MODEL_CHECKPOINT = "xlm-roberta-base"
+MODEL_CHECKPOINT = "bert-base-cased"
 
 parser = argparse.ArgumentParser()
 parser.add_argument('--t', type=str, help='Recipe Corpus Target: can either be r-100, r-200, or r-300')
