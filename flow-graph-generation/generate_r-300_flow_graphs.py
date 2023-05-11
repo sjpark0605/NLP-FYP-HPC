@@ -25,6 +25,8 @@ device = torch.device("cpu")
 if torch.cuda.is_available():
     device = torch.device("cuda")
 
+os.environ["TOKENIZERS_PARALLELISM"] = "false"
+
 PROJECT_DIR = "/cluster/project2/COMP0029_17022125/NLP-FYP-HPC/"
 
 NER_FILES, FLOW_FILES = [], []
