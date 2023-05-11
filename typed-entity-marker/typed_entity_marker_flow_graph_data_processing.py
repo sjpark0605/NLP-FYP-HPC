@@ -273,9 +273,9 @@ def undersample(df, undersample_factor):
   match_indices = df.index[df['Label'] == 'non-edge']
   np.random.seed(SEED)
   if undersample_factor == 1:
-    delete_indices = np.random.choice(match_indices, size=int(len(match_indices) * undersample_factor), replace=False)
-  else:
     delete_indices = np.random.choice(match_indices, size=(2 * len(match_indices) - df['Label'].value_counts().sum()), replace=False)
+  else:
+    delete_indices = np.random.choice(match_indices, size=int(len(match_indices) * undersample_factor), replace=False)
   df = df.drop(delete_indices)
   df = df.reset_index(drop=True)
   
