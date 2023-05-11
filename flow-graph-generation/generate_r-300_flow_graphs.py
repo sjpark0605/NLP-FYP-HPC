@@ -461,5 +461,7 @@ for ner_file, flow_file in tqdm(
     pred_f.close()
     true_f.close()
 
+    print("Generating Graph!")
+
     generate_predicted_graph(predicted_nodes, predicted_edges, dest_folder)
     generate_true_graph(true_nodes, true_edges, dest_folder)
