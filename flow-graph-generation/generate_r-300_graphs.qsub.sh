@@ -1,6 +1,6 @@
 # GPU job script example.
 #$ -S /bin/bash
-#$ -l h_rt=2:00:0
+#$ -l h_rt=4:00:0
 #$ -l tmem=4G
 #$ -wd /cluster/project2/COMP0029_17022125/NLP-FYP-HPC
 #$ -j y

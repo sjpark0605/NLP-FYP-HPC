@@ -435,7 +435,7 @@ def generate_true_graph(nodes, edges, dest_folder):
 
 
 for ner_file, flow_file in tqdm(
-    zip(NER_FILES, FLOW_FILES), desc="Generating Flow Graphs"
+    reversed(zip(NER_FILES, FLOW_FILES)), desc="Generating Flow Graphs"
 ):
     ner_data, flow_data = open(ner_file, "r", encoding="utf-8"), open(
         flow_file, "r", encoding="utf-8"
