@@ -454,10 +454,10 @@ for ner_file, flow_file in tqdm(
         os.makedirs(dest_folder)
 
     predicted_nodes, predicted_edges = food_recipe_to_predicted_flow_graph(ner_lines)
-    print("Predicted: " + str(len(predicted_nodes)) + str(predicted_edges))
+    print("Predicted: " + str(len(predicted_nodes)) + str(len(predicted_edges)))
 
     true_nodes, true_edges = food_recipe_to_true_flow_graph(ner_lines, flow_lines)
-    print("True: " + str(len(true_nodes)) + str(true_edges))
+    print("True: " + str(len(true_nodes)) + str(len(true_edges)))
 
     with open(dest_folder + "predicted_flow_graph.pkl", "wb") as pred_f:
         pickle.dump((predicted_nodes, predicted_edges), pred_f)
