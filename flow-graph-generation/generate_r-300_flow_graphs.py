@@ -445,7 +445,7 @@ for ner_file, flow_file in tqdm(
     filename_without_extension = Path(ner_file).stem
     dest_folder = (
         PROJECT_DIR
-        + "outputs/generated_flow_graphs/"
+        + "outputs/generated_flow_graphs_r-300/"
         + filename_without_extension
         + "/"
     )

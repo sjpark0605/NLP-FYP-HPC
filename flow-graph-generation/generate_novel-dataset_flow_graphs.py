@@ -86,7 +86,7 @@ def split_text_into_sentences(text):
 
 
 flow_model = AutoModelForSequenceClassification.from_pretrained(
-    PROJECT_DIR + "saved_models/entity-marker-model"
+    PROJECT_DIR + "saved-models/entity-marker-model"
 ).to(device)
 flow_tokenizer = tokenizer = BertTokenizer.from_pretrained(
     PROJECT_DIR + "tokenizers/entity-marker"
