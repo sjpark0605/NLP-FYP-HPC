@@ -97,6 +97,9 @@ def obtain_predicted_ner_tags(sentences, keys_list):
             word_dict[key] = word
             ner_dict[key] = label
 
+        print(word_dict)
+        print(ner_dict)
+
     return word_dict, ner_dict
 
 
@@ -458,9 +461,6 @@ for ner_file, flow_file in tqdm(
     print(predicted_nodes)
     print(predicted_edges)
     true_nodes, true_edges = food_recipe_to_true_flow_graph(ner_lines, flow_lines)
-    print("True!")
-    print(true_nodes)
-    print(true_edges)
 
     with open(dest_folder + "predicted_flow_graph.pkl", "wb") as pred_f:
         pickle.dump((predicted_nodes, predicted_edges), pred_f)
