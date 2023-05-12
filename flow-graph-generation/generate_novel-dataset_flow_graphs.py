@@ -315,9 +315,18 @@ def generate_graph(nodes, edges):
 
 for recipe_file in tqdm(NOVEL_DATASET_FILES, desc="Generating Flow Graphs"):
     recipe_data = open(recipe_file, "r", encoding="utf-8")
-    recipe_text = recipe_data.readlines()
+    recipe_lines = recipe_data.readlines()
 
-    print(recipe_text)
+    recipe_text = ""
+
+    first_line = True
+
+    for recipe_line in recipe_lines:
+        if not first_line:
+            recipe_text += " "
+        else:
+            first_line = False
+        recipe_text += recipe_line
 
     filename_without_extension = Path(recipe_file).stem
     dest_folder = PROJECT_DIR + "outputs/generated_flow_graphs_novel-dataset/"
