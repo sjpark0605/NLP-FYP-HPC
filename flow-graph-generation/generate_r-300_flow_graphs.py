@@ -389,7 +389,7 @@ def generate_predicted_graph(nodes, edges, dest_folder):
             graph.add_edge(pydot_edge)
 
     print("Writing Predicted PNG")
-    graph.write(dest_folder + "predicted_flow_graph.svg", format="svg")
+    graph.write_png(dest_folder + "predicted_flow_graph.png")
     print("Wrote Predicted PNG")
 
 
@@ -454,9 +454,6 @@ for ner_file, flow_file in tqdm(
         os.makedirs(dest_folder)
 
     predicted_nodes, predicted_edges = food_recipe_to_predicted_flow_graph(ner_lines)
-    print("Predicted!")
-    print(predicted_nodes)
-    print(predicted_edges)
     true_nodes, true_edges = food_recipe_to_true_flow_graph(ner_lines, flow_lines)
 
     with open(dest_folder + "predicted_flow_graph.pkl", "wb") as pred_f:
