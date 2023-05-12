@@ -25,7 +25,7 @@ device = torch.device("cpu")
 if torch.cuda.is_available():
     device = torch.device("cuda")
 
-os.environ["TOKENIZERS_PARALLELISM"] = "false"
+os.environ["TOKENIZERS_PARALLELISM"] = "true"
 
 PROJECT_DIR = "/cluster/project2/COMP0029_17022125/NLP-FYP-HPC/"
 
