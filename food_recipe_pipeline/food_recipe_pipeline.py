@@ -84,7 +84,7 @@ flow_tokenizer = tokenizer = BertTokenizer.from_pretrained(
 
 flow_id2label = flow_model.config.id2label
 
-with open(PROJECT_DIR + "relation_set.pickle", "rb") as relation_set_file:
+with open(PROJECT_DIR + "r-300-relation_set.pickle", "rb") as relation_set_file:
     RELATION_SET = pickle.load(relation_set_file)
 
 
