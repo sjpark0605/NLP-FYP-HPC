@@ -265,8 +265,6 @@ def obtain_predicted_flow_edges(word_dict, ner_dict, phrase_dict, entity_pairs):
         logits = flow_model(**input).get("logits")
         label = flow_id2label[logits.argmax(dim=-1).squeeze().item()]
 
-        print(label)
-
         if label != "non-edge":
             edges.append(
                 (
