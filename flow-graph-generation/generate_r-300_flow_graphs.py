@@ -97,9 +97,6 @@ def obtain_predicted_ner_tags(sentences, keys_list):
             word_dict[key] = word
             ner_dict[key] = label
 
-        print(word_dict)
-        print(ner_dict)
-
     return word_dict, ner_dict
 
 
