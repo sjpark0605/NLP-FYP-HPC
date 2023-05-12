@@ -19,6 +19,7 @@ from pathlib import Path
 import nltk
 import pydot
 import torch
+from tqdm import tqdm
 from transformers import (
     AutoModelForSequenceClassification,
     AutoModelForTokenClassification,
