@@ -11,9 +11,11 @@ Original file is located at
 # %%capture
 # !pip install transformers[sentencepiece]
 
+import glob
+import os
 import pickle
+from pathlib import Path
 
-import networkx as nx
 import nltk
 import pydot
 import torch
@@ -25,6 +27,13 @@ from transformers import (
 )
 
 PROJECT_DIR = "/cluster/project2/COMP0029_17022125/NLP-FYP-HPC/"
+
+NOVEL_DATASET_FILES = [], []
+
+for corpus in ["r-100", "r-200"]:
+    NOVEL_DATASET_FILES += glob.glob(PROJECT_DIR + "novel-dataset/*.txt")
+
+NOVEL_DATASET_FILES.sort()
 
 device = torch.device("cpu")
 
@@ -240,33 +249,6 @@ def food_recipe_to_flow_graph(text):
     return nodes, edges
 
 
-def construct_graph(nodes, edges):
-    flow_graph = nx.DiGraph()
-
-    for node in nodes:
-        flow_graph.add_node(
-            str(node[0])
-            + " "
-            + node[1]
-            + " ["
-            + node[2].replace("-B", "").replace("-I", "")
-            + "]"
-        )
-
-    for edge in edges:
-        node1 = str(edge[0][0]) + " " + edge[1][0]
-        node2 = str(edge[0][1]) + " " + edge[1][1]
-
-        if edge[3].endswith(":LR"):
-            flow_graph.add_edge(node1, node2, label=edge[3].replace(":LR", ""))
-        elif edge[3].endswith("RL"):
-            flow_graph.add_edge(node2, node1, label=edge[3].replace(":RL", ""))
-        else:
-            flow_graph.add_edge(node1, node2, label=edge[3])
-
-    return flow_graph
-
-
 node_shape = {"F": "ellipse", "T": "hexagon", "Ac": "rectangle", "Ac2": "rectangle"}
 
 
@@ -330,11 +312,23 @@ def generate_graph(nodes, edges):
     graph.write_png("flow_graph.png")
 
 
-text = "Put 500mL of water in a pot on high heat. Cook cook the instant noodles in the boiling water for 5 minutes. Mix the flavouring packet with the noodles and serve."
-nodes, edges = food_recipe_to_flow_graph(text)
+for recipe_file in tqdm(NOVEL_DATASET_FILES, desc="Generating Flow Graphs"):
+    recipe_data = open(recipe_file, "r", encoding="utf-8")
+    recipe_text = recipe_data.readlines()
 
-# flow_graph = construct_graph(nodes, edges)
-# cycles = list(nx.simple_cycles(flow_graph))
-# print(cycles)
+    print(recipe_text)
 
-generate_graph(nodes, edges)
+    filename_without_extension = Path(recipe_file).stem
+    dest_folder = PROJECT_DIR + "outputs/generated_flow_graphs_novel-dataset/"
+
+    if not os.path.exists(dest_folder):
+        os.makedirs(dest_folder)
+
+    nodes, edges = food_recipe_to_flow_graph(recipe_text)
+    print("Generated: " + str(len(nodes)) + str(len(edges)))
+
+    with open(dest_folder + filename_without_extension + ".pkl", "wb") as graph_f:
+        pickle.dump((nodes, edges), graph_f)
+
+    recipe_data.close()
+    graph_f.close()
