@@ -29,7 +29,7 @@ from transformers import (
 
 PROJECT_DIR = "/cluster/project2/COMP0029_17022125/NLP-FYP-HPC/"
 
-NOVEL_DATASET_FILES = [], []
+NOVEL_DATASET_FILES = []
 
 for corpus in ["r-100", "r-200"]:
     NOVEL_DATASET_FILES += glob.glob(PROJECT_DIR + "novel-dataset/*.txt")
